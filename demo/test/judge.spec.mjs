@@ -22,7 +22,7 @@ test("hero, Anya's rulebook and beats with labels and proof links", async ({ pag
   await expect(onchain.locator(".label.live")).toHaveCount(1);
   await expect(onchain.getByRole("link", { name: /nearblocks tx 48cPQwuF/ })).toHaveAttribute("href", "https://testnet.nearblocks.io/txns/48cPQwuFsUYb1MtPB4oUShVKD979xTF6vGJE2CHhxdRi");
   await expect(page.locator("#anya-poisoned .label.live")).toHaveCount(1);
-  await expect(page.locator("#anya-poisoned").getByRole("link", { name: /nearblocks tx FkGbQ2UP/ })).toHaveAttribute("href", "https://testnet.nearblocks.io/txns/FkGbQ2UP7bmaSoNastDgkx8ueCMAUMBMbQ4GtsG6pjzM");
+  await expect(page.locator("#anya-poisoned").getByRole("link", { name: /nearblocks tx AHgKKqFE/ })).toHaveAttribute("href", "https://testnet.nearblocks.io/txns/AHgKKqFEuwGnD4vLw9UBFRtfsK7Tv2sAqNUb5ybm1W76");
   await expect(page.locator("#anya-pay")).toContainText("payout batch 4UT7JP3CLY46U SUCCESS");
 });
 

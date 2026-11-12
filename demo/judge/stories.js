@@ -10,7 +10,7 @@ export const ONCHAIN_REFUSAL = "48cPQwuFsUYb1MtPB4oUShVKD979xTF6vGJE2CHhxdRi";
 export const REFUND_CONTRACT = "nearh-pt1-1794232398.testnet";
 export const PAYOUT_CONTRACT = "nearh-pl1-1794480855.testnet";
 const PAYOUT_SIGNED = "hkjaTK8Fopdp4DPsZiYf6hbqvvFUc2pHBVYEACiNvGk";
-const PAYOUT_REFUSAL = "FkGbQ2UP7bmaSoNastDgkx8ueCMAUMBMbQ4GtsG6pjzM";
+const PAYOUT_REFUSAL = "AHgKKqFEuwGnD4vLw9UBFRtfsK7Tv2sAqNUb5ybm1W76";
 
 export const STORIES = {
   anya: {
@@ -47,12 +47,12 @@ export const STORIES = {
         id: "anya-poisoned",
         live: true,
         title: "A poisoned invoice from acme-suppIies",
-        text: "Same supplier name and amount, but the payee has a capital I. The scam check holds it, so nothing is signed. With the check stubbed to approve everything (the AI fooled), the contract refuses on chain: the payee isn't in the rulebook.",
+        text: "Same supplier name with a capital I, same amount, and the payee is a real PayPal sandbox account that isn't in the rulebook. The scam check holds it, so nothing is signed. With the check stubbed to approve everything (the AI fooled), the contract refuses on chain, and PayPal receives nothing.",
         code: "ERR_PAYPAL_PAYEE_NOT_ALLOWED",
         proof: [
           {
             label: "live run",
-            text: "Nov 12: invoice INV2-G23J-HVDJ-T2VD-J7DA to bi…@acme-suppiies.example held (\"unknown payee\"), contract not called. Check stubbed, invoice INV2-H5J5-3CRC-59TW-G8JT: refused on chain, nothing signed, nothing sent",
+            text: "Nov 12: the fake supplier is a real PayPal sandbox Personal account (sb…@personal.example.com, a different account from the paid one, not in the rulebook). Its invoice INV2-W5NZ-BJVF-J54R-VCGQ from \"acme-suppIies\" held (\"unknown payee\"), contract not called. Check stubbed, invoice INV2-CPDH-2WXX-BKSE-7AYR: refused on chain, nothing signed, nothing sent to the rail. PayPal: 0 payouts received",
             links: [[`nearblocks tx ${PAYOUT_REFUSAL.slice(0, 8)}…`, tx(PAYOUT_REFUSAL)], ["transcript pp-payouts-live.jsonl", ev("demo/evidence/pp-payouts-live.jsonl")]],
           },
         ],
