@@ -21,28 +21,22 @@ test("hero, Anya's rulebook and beats with labels and proof links", async ({ pag
   await expect(onchain).toContainText("ERR_OVER_PER_PAYMENT_CAP");
   await expect(onchain.locator(".label.live")).toHaveCount(1);
   await expect(onchain.getByRole("link", { name: /nearblocks tx 48cPQwuF/ })).toHaveAttribute("href", "https://testnet.nearblocks.io/txns/48cPQwuFsUYb1MtPB4oUShVKD979xTF6vGJE2CHhxdRi");
-  await expect(page.locator("#anya-poisoned .label.live")).toHaveCount(0);
+  await expect(page.locator("#anya-poisoned .label.live")).toHaveCount(1);
+  await expect(page.locator("#anya-poisoned").getByRole("link", { name: /nearblocks tx FkGbQ2UP/ })).toHaveAttribute("href", "https://testnet.nearblocks.io/txns/FkGbQ2UP7bmaSoNastDgkx8ueCMAUMBMbQ4GtsG6pjzM");
+  await expect(page.locator("#anya-pay")).toContainText("payout batch 4UT7JP3CLY46U SUCCESS");
 });
 
-test("Run it replays Anya on the mock contract with same-origin calls only", async ({ page, baseURL }) => {
+test("Anya: every beat ran live, so there is nothing to replay and no request leaves the page", async ({ page, baseURL }) => {
   const urls = watch(page);
   await page.goto("/");
-  await page.getByRole("button", { name: "Run it (replay)" }).click();
-  await expect(page.getByRole("status")).toHaveText(/Replay done: \d+ steps\./);
-  // The count is the replay lines on screen, not the steps the server ran under live beats.
-  const shown = await page.getByTestId("step").count();
-  expect(shown).toBe(4);
-  await expect(page.getByRole("status")).toHaveText(`Replay done: ${shown} steps.`);
-  await expect(page.locator("#anya-pay [data-testid=step]").first()).toContainText("payout batch");
+  await expect(page.getByRole("button", { name: "Run it (replay)" })).toHaveCount(0);
+  for (const id of ["anya-pay", "anya-poisoned", "anya-refund", "anya-injected", "anya-onchain"]) {
+    await expect(page.locator(`#${id} .label.live`), id).toHaveCount(1);
+    await expect(page.locator(`#${id} .label.replay`), id).toHaveCount(0);
+    await expect(page.locator(`#${id} .replay-out`), id).toHaveCount(0);
+  }
   await expect(page.locator("#anya-pay")).toContainText("PP3_DUPLICATE_REQUEST");
   await expect(page.locator("#anya-poisoned")).toContainText("held");
-  await expect(page.locator("#anya-poisoned .replay-out")).toContainText("ERR_PAYPAL_PAYEE_NOT_ALLOWED");
-  // Beats 3-5 ran fully live: after Run it they show only their live run proof, no replay line.
-  for (const id of ["anya-refund", "anya-injected", "anya-onchain"]) {
-    await expect(page.locator(`#${id} [data-testid=step]`), id).toHaveCount(0);
-    await expect(page.locator(`#${id}`), id).not.toContainText(/MOCKCAPTURE|USD 45\.00/);
-    await expect(page.locator(`#${id} .label.live`), id).toHaveCount(1);
-  }
   for (const u of urls) expect(new URL(u).origin).toBe(new URL(baseURL).origin);
   await expect(page.locator("body")).not.toContainText(/billing@|sales@|orders@/);
 });
@@ -74,6 +68,7 @@ test("Verify it yourself: contract, view call and the on-chain refusal", async (
   await expect(v.locator("#view-cli")).toContainText("get_mandate");
   await expect(v.locator("#view-rpc")).toContainText('"args_base64":"eyJhZ2VudCI6InN1cHBvcnQtMSJ9"');
   await expect(v.locator("#refusal-link")).toHaveAttribute("href", /48cPQwuFsUYb1MtPB4oUShVKD979xTF6vGJE2CHhxdRi$/);
+  await expect(v.locator("#payout-contract-id")).toHaveText("nearh-pl1-1794480855.testnet");
 });
 
 test("proof links to repo files are served, other paths are not", async ({ page, request }) => {
@@ -93,8 +88,10 @@ test("no horizontal scroll at this width", async ({ page }) => {
   await page.goto("/");
   for (const tab of ["Anya's Coffeehouse", "Hank's trading card"]) {
     await page.getByRole("tab", { name: tab }).click();
-    await page.getByRole("button", { name: "Run it (replay)" }).click();
-    await expect(page.getByRole("status")).toHaveText(/Replay done/);
+    if (tab === "Hank's trading card") {
+      await page.getByRole("button", { name: "Run it (replay)" }).click();
+      await expect(page.getByRole("status")).toHaveText(/Replay done/);
+    }
     const [scroll, client] = await page.evaluate(() => [document.documentElement.scrollWidth, document.documentElement.clientWidth]);
     expect(scroll, tab).toBeLessThanOrEqual(client);
   }

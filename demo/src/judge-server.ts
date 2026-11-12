@@ -18,6 +18,8 @@ const PAGE: Record<string, string> = { "/": "index.html", "/app.js": "app.js", "
 export const EVIDENCE = [
   "demo/evidence/pt1-refunds.md",
   "demo/evidence/pt1-refunds.jsonl",
+  "demo/evidence/pp-payouts-live.md",
+  "demo/evidence/pp-payouts-live.jsonl",
   "rails/paypal/RESULT.md",
   "rails/paypal/RESULT-webhooks.md",
   "rails/paypal/evidence-vault.json",

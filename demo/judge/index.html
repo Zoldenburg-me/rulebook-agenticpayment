@@ -34,6 +34,7 @@
       <pre id="view-rpc"></pre>
       <p>It answers with the mandate, including <code>"paypal_refund":{"amount_range":{"min":"1","max":"1000"},"budget":"1500","period_secs":86400}</code>: USD 10.00 per refund, USD 15.00 per day.</p>
       <p>The injected refund it refused on chain: <a id="refusal-link" rel="noopener"></a> (<code>ERR_OVER_PER_PAYMENT_CAP</code>).</p>
+      <p>The live supplier payouts used the contract <code id="payout-contract-id"></code>, agent <code>anya-ops</code>; the same view call with <code>{"agent":"anya-ops"}</code> answers with <code>"paypal":{"amount_range":{"min":"1","max":"5000"},"budget":"10000","period_secs":604800}</code>: USD 50.00 per payment, USD 100.00 per week.</p>
     </section>
   </main>
 

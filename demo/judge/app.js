@@ -1,6 +1,6 @@
 // The judge page: renders a story from stories.js, and "Run it" fetches the same-origin replay
 // (GET /api/replay/{story}), which runs on the server's mock contract and mock PayPal.
-import { ONCHAIN_REFUSAL, REFUND_CONTRACT, STORIES } from "./stories.js";
+import { ONCHAIN_REFUSAL, PAYOUT_CONTRACT, REFUND_CONTRACT, STORIES } from "./stories.js";
 
 const el = (tag, attrs = {}, ...kids) => {
   const n = document.createElement(tag);
@@ -42,7 +42,9 @@ function render(id) {
   const btn = el("button", { class: "run", type: "button" }, "Run it (replay)");
   const status = el("p", { class: "status", role: "status" });
   btn.addEventListener("click", () => run(id, btn, status));
-  root.append(el("div", { class: "runbar" }, btn, el("span", { class: "hint" }, "Mock contract + mock PayPal, no network call"), status), list);
+  // A story whose every beat ran live has nothing to replay.
+  if (s.beats.some((b) => !b.live)) root.append(el("div", { class: "runbar" }, btn, el("span", { class: "hint" }, "Mock contract + mock PayPal, no network call"), status));
+  root.append(list);
 }
 
 async function run(id, btn, status) {
@@ -78,6 +80,7 @@ function select(id) {
 for (const t of document.querySelectorAll("[role=tab]")) t.addEventListener("click", () => select(t.dataset.story));
 
 document.getElementById("contract-id").textContent = REFUND_CONTRACT;
+document.getElementById("payout-contract-id").textContent = PAYOUT_CONTRACT;
 document.getElementById("view-cli").textContent =
   `near contract call-function as-read-only ${REFUND_CONTRACT} get_mandate \\\n  json-args '{"agent":"support-1"}' network-config testnet now`;
 const args = btoa(JSON.stringify({ agent: "support-1" }));

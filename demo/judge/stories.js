@@ -8,6 +8,9 @@ const ev = (path) => `/evidence/${path}`;
 
 export const ONCHAIN_REFUSAL = "48cPQwuFsUYb1MtPB4oUShVKD979xTF6vGJE2CHhxdRi";
 export const REFUND_CONTRACT = "nearh-pt1-1794232398.testnet";
+export const PAYOUT_CONTRACT = "nearh-pl1-1794480855.testnet";
+const PAYOUT_SIGNED = "hkjaTK8Fopdp4DPsZiYf6hbqvvFUc2pHBVYEACiNvGk";
+const PAYOUT_REFUSAL = "FkGbQ2UP7bmaSoNastDgkx8ueCMAUMBMbQ4GtsG6pjzM";
 
 export const STORIES = {
   anya: {
@@ -15,7 +18,7 @@ export const STORIES = {
     kind: "Business",
     intro: "Anya's ops agent pays her bean suppliers and works refund tickets through PayPal. It never holds her PayPal key.",
     rulebook: [
-      ["Suppliers", "3 allowed: bi…@acme-supplies.example, or…@bean-bros.example, in…@roastery-north.example"],
+      ["Suppliers", "3 allowed: sb…@personal.example.com (a PayPal sandbox account), bi…@acme-supplies.example, or…@bean-bros.example"],
       ["Payouts", "max USD 50.00 per payment, USD 100.00 per week"],
       ["Refunds", "max USD 30.00 each, USD 60.00 per day"],
       ["Each signed order", "valid at most 5 minutes, paid once per request_id"],
@@ -24,24 +27,34 @@ export const STORIES = {
     beats: [
       {
         id: "anya-pay",
+        live: true,
         title: "The agent pays a supplier invoice",
-        text: "A USD 25.00 invoice from acme-supplies. The scam check passes it, the contract signs the exact payout text, and only the PayPal rail, which alone holds the PayPal credentials, sends it to PayPal Payouts. The same request_id again is refused.",
+        text: "A USD 25.00 supplier invoice. The scam check passes it, the contract signs the exact payout text, and only the PayPal rail, which alone holds the PayPal credentials, sends it to PayPal Payouts. The same request_id again is refused, by the contract and by the rail. An invoice over the USD 50.00 cap is refused on chain.",
         proof: [
-          { label: "replay", text: "Run it below (mock contract, mock PayPal), or pnpm demo:paypal --mock" },
           {
             label: "live run",
-            text: "The rail's sandbox payout, NEAR stubbed: USD 1.00 to sb…@personal.example.com, batch XGE5TQPUBA9ZA SUCCESS; resubmission refused locally (PP3_DUPLICATE_REQUEST)",
-            links: [["rails/paypal/RESULT.md", ev("rails/paypal/RESULT.md")]],
+            text: "NEAR testnet + NEAR AI Cloud + PayPal sandbox, Nov 12: invoice INV2-QNQ8-3HT6-DZUX-G3SY, USD 25.00 to sb…@personal.example.com, scam check ok, contract-signed, payout batch 4UT7JP3CLY46U SUCCESS. Same request_id again: ERR_DUPLICATE_REQUEST_ID on chain, PP3_DUPLICATE_REQUEST at the rail. USD 75.00: ERR_OVER_PER_PAYMENT_CAP on chain",
+            links: [
+              [`signed tx ${PAYOUT_SIGNED.slice(0, 8)}…`, tx(PAYOUT_SIGNED)],
+              ["refused tx CrsMq27R… (same request_id)", tx("CrsMq27RKsjYQ1ENpCmWngByjtKtMvEvnG6spsYd9zKi")],
+              ["refused tx 4YQFRZVg… (over cap)", tx("4YQFRZVgCMoKQqddZZ2jzuEKP4D48jYCEKPNVJPwWBe4")],
+              ["demo/evidence/pp-payouts-live.md", ev("demo/evidence/pp-payouts-live.md")],
+            ],
           },
         ],
       },
       {
         id: "anya-poisoned",
+        live: true,
         title: "A poisoned invoice from acme-suppIies",
-        text: "Same supplier name and amount, but the payee has a capital I. The scam check holds it, so nothing is signed. With the check bypassed, the contract refuses: the payee isn't in the rulebook.",
+        text: "Same supplier name and amount, but the payee has a capital I. The scam check holds it, so nothing is signed. With the check stubbed to approve everything (the AI fooled), the contract refuses on chain: the payee isn't in the rulebook.",
         code: "ERR_PAYPAL_PAYEE_NOT_ALLOWED",
         proof: [
-          { label: "replay", text: "No live run of this beat: shown on the mock contract, whose checks follow the contract's", links: [["contract/src/shapes/paypal.rs", ev("contract/src/shapes/paypal.rs")]] },
+          {
+            label: "live run",
+            text: "Nov 12: invoice INV2-G23J-HVDJ-T2VD-J7DA to bi…@acme-suppiies.example held (\"unknown payee\"), contract not called. Check stubbed, invoice INV2-H5J5-3CRC-59TW-G8JT: refused on chain, nothing signed, nothing sent",
+            links: [[`nearblocks tx ${PAYOUT_REFUSAL.slice(0, 8)}…`, tx(PAYOUT_REFUSAL)], ["transcript pp-payouts-live.jsonl", ev("demo/evidence/pp-payouts-live.jsonl")]],
+          },
         ],
       },
       {
