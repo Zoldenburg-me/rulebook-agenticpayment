@@ -1,0 +1,19 @@
+{
+  "name": "scamcheck",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test --import tsx \"src/**/*.test.ts\""
+  },
+  "dependencies": {
+    "@noble/curves": "^2.4.0",
+    "@noble/hashes": "^2.4.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  },
+  "exports": {
+    ".": "./src/check.ts"
+  }
+}

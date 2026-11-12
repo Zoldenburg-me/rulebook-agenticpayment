@@ -1,0 +1,9 @@
+{
+  "x402": { "amount_range": { "min": "1", "max": "1000000" }, "budget": "20000000", "period_secs": 604800 },
+  "sepa": { "amount_range": { "min": "1", "max": "50000000000000000000" }, "budget": "200000000000000000000", "period_secs": 604800 },
+  "usdc_address": "0x036cbd53842c5426634e7929541ec2318f3dcf7e",
+  "eure_address": "0x29f37f6adca168b79b8d9567eab9be3fbf21db85",
+  "chain_id": 84532,
+  "float_cap": { "usdc": "25000000", "eure": "250000000000000000000" },
+  "max_validity_secs": 300
+}

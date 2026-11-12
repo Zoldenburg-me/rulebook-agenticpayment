@@ -1,0 +1,12 @@
+{
+  "name": "@nearh/supplier",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "test": "node --test \"test/**/*.test.ts\"",
+    "invoice": "node src/cli.ts"
+  }
+}

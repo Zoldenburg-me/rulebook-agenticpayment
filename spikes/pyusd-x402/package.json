@@ -1,0 +1,13 @@
+{
+  "name": "spike-pyusd-x402",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node pyusd-x402.mjs"
+  },
+  "dependencies": {
+    "@x402/evm": "2.30.0",
+    "near-api-js": "^7.4.0",
+    "viem": "^2.57.13"
+  }
+}

@@ -1,0 +1,278 @@
+{
+  "ranAt": "2026-11-04T22:36:11.757Z",
+  "base": "https://api-m.sandbox.paypal.com",
+  "steps": [
+    {
+      "step": "1:oauth",
+      "status": 200,
+      "debugId": "ca557189f7ed9",
+      "expires_in": 31854,
+      "scopeHasPayouts": true
+    },
+    {
+      "step": "2:create",
+      "sender_batch_id": "nearh-spike-1793831772",
+      "status": 201,
+      "debugId": "ca55718a40d6f",
+      "response": {
+        "batch_header": {
+          "payout_batch_id": "7KQPBKG3XE474",
+          "batch_status": "PENDING",
+          "sender_batch_header": {
+            "sender_batch_id": "nearh-spike-1793831772",
+            "email_subject": "nearh spike",
+            "email_message": "nearh spike"
+          }
+        }
+      }
+    },
+    {
+      "step": "3:poll",
+      "status": 200,
+      "elapsedMs": 309,
+      "batch_status": "PENDING",
+      "item_status": "PENDING"
+    },
+    {
+      "step": "3:poll",
+      "status": 200,
+      "elapsedMs": 11603,
+      "batch_status": "PROCESSING",
+      "item_status": "PENDING"
+    },
+    {
+      "step": "3:poll",
+      "status": 200,
+      "elapsedMs": 17053,
+      "batch_status": "PROCESSING",
+      "item_status": "SUCCESS"
+    },
+    {
+      "step": "3:poll",
+      "status": 200,
+      "elapsedMs": 27798,
+      "batch_status": "SUCCESS",
+      "item_status": "SUCCESS"
+    },
+    {
+      "step": "3:final",
+      "elapsedMs": 27798,
+      "response": {
+        "batch_header": {
+          "payout_batch_id": "7KQPBKG3XE474",
+          "batch_status": "SUCCESS",
+          "time_created": "2026-11-04T22:36:13Z",
+          "time_completed": "2026-11-04T22:36:36Z",
+          "time_closed": "2026-11-04T22:36:36Z",
+          "sender_batch_header": {
+            "sender_batch_id": "nearh-spike-1793831772",
+            "email_subject": "nearh spike",
+            "email_message": "nearh spike"
+          },
+          "funding_source": "BALANCE",
+          "amount": {
+            "currency": "USD",
+            "value": "1.00"
+          },
+          "fees": {
+            "currency": "USD",
+            "value": "0.02"
+          },
+          "currency_conversion": {
+            "from_amount": {
+              "currency": "EUR",
+              "value": "0.94"
+            },
+            "to_amount": {
+              "currency": "USD",
+              "value": "1.02"
+            }
+          }
+        },
+        "items": [
+          {
+            "payout_item_id": "BLEYNJ7XL7UFQ",
+            "transaction_id": "8M076679K37737711",
+            "activity_id": "4AV67660BE879422C",
+            "transaction_status": "SUCCESS",
+            "payout_item_fee": {
+              "currency": "USD",
+              "value": "0.02"
+            },
+            "payout_batch_id": "7KQPBKG3XE474",
+            "payout_item": {
+              "recipient_type": "EMAIL",
+              "amount": {
+                "currency": "USD",
+                "value": "1.00"
+              },
+              "note": "nearh spike",
+              "receiver": "sb-…@…",
+              "sender_item_id": "nearh-spike-1793831772-1",
+              "recipient_wallet": "PAYPAL",
+              "purpose": "GOODS"
+            },
+            "currency_conversion": {
+              "from_amount": {
+                "currency": "EUR",
+                "value": "0.94"
+              },
+              "to_amount": {
+                "currency": "USD",
+                "value": "1.02"
+              },
+              "exchange_rate": "1.089477173902071"
+            },
+            "time_processed": "2026-11-04T22:36:28Z"
+          }
+        ]
+      }
+    },
+    {
+      "step": "4:resubmit-same-sender_batch_id",
+      "sender_batch_id": "nearh-spike-1793831772",
+      "status": 400,
+      "debugId": "ca5571954b934",
+      "response": {
+        "name": "USER_BUSINESS_ERROR",
+        "message": "User business error.",
+        "debug_id": "ca5571954b934",
+        "information_link": "https://developer.paypal.com/docs/api/payments.payouts-batch/#errors",
+        "details": [
+          {
+            "field": "SENDER_BATCH_ID",
+            "location": "body",
+            "issue": "Batch with given sender_batch_id already exists",
+            "link": [
+              {
+                "href": "https://api.sandbox.paypal.com/v1/payments/payouts/7KQPBKG3XE474",
+                "rel": "self",
+                "method": "GET",
+                "encType": "application/json"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "step": "5:same-item-new-sender_batch_id",
+      "sender_batch_id": "nearh-spike-1793831772-b",
+      "status": 201,
+      "debugId": "ca55719571b78",
+      "response": {
+        "batch_header": {
+          "payout_batch_id": "3XHGCU22M3G22",
+          "batch_status": "PENDING",
+          "sender_batch_header": {
+            "sender_batch_id": "nearh-spike-1793831772-b",
+            "email_subject": "nearh spike",
+            "email_message": "nearh spike"
+          }
+        }
+      }
+    },
+    {
+      "step": "5:poll",
+      "status": 200,
+      "elapsedMs": 315,
+      "batch_status": "PENDING",
+      "item_status": "PENDING"
+    },
+    {
+      "step": "5:poll",
+      "status": 200,
+      "elapsedMs": 11123,
+      "batch_status": "PROCESSING",
+      "item_status": "PENDING"
+    },
+    {
+      "step": "5:poll",
+      "status": 200,
+      "elapsedMs": 22516,
+      "batch_status": "PROCESSING",
+      "item_status": "SUCCESS"
+    },
+    {
+      "step": "5:poll",
+      "status": 200,
+      "elapsedMs": 27928,
+      "batch_status": "SUCCESS",
+      "item_status": "SUCCESS"
+    },
+    {
+      "step": "5:final",
+      "elapsedMs": 27929,
+      "response": {
+        "batch_header": {
+          "payout_batch_id": "3XHGCU22M3G22",
+          "batch_status": "SUCCESS",
+          "time_created": "2026-11-04T22:36:41Z",
+          "time_completed": "2026-11-04T22:37:06Z",
+          "time_closed": "2026-11-04T22:37:06Z",
+          "sender_batch_header": {
+            "sender_batch_id": "nearh-spike-1793831772-b",
+            "email_subject": "nearh spike",
+            "email_message": "nearh spike"
+          },
+          "funding_source": "BALANCE",
+          "amount": {
+            "currency": "USD",
+            "value": "1.00"
+          },
+          "fees": {
+            "currency": "USD",
+            "value": "0.02"
+          },
+          "currency_conversion": {
+            "from_amount": {
+              "currency": "EUR",
+              "value": "0.94"
+            },
+            "to_amount": {
+              "currency": "USD",
+              "value": "1.02"
+            }
+          }
+        },
+        "items": [
+          {
+            "payout_item_id": "RJSVJU9USWLF4",
+            "transaction_id": "09U358302W0173800",
+            "activity_id": "86N55923B0929621H",
+            "transaction_status": "SUCCESS",
+            "payout_item_fee": {
+              "currency": "USD",
+              "value": "0.02"
+            },
+            "payout_batch_id": "3XHGCU22M3G22",
+            "payout_item": {
+              "recipient_type": "EMAIL",
+              "amount": {
+                "currency": "USD",
+                "value": "1.00"
+              },
+              "note": "nearh spike",
+              "receiver": "sb-…@…",
+              "sender_item_id": "nearh-spike-1793831772-1",
+              "recipient_wallet": "PAYPAL",
+              "purpose": "GOODS"
+            },
+            "currency_conversion": {
+              "from_amount": {
+                "currency": "EUR",
+                "value": "0.94"
+              },
+              "to_amount": {
+                "currency": "USD",
+                "value": "1.02"
+              },
+              "exchange_rate": "1.089477173902071"
+            },
+            "time_processed": "2026-11-04T22:36:58Z"
+          }
+        ]
+      }
+    }
+  ]
+}

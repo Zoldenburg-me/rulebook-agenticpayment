@@ -1,0 +1,17 @@
+{
+  "name": "@nearh/owner-monerium",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "test": "node --test \"test/**/*.test.ts\"",
+    "link-agent": "node src/cli/link.ts"
+  },
+  "dependencies": {
+    "@nearh/owner-near": "workspace:*",
+    "@noble/curves": "^2.4.0",
+    "@noble/hashes": "^2.4.0"
+  }
+}

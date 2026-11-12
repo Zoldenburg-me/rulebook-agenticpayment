@@ -1,0 +1,39 @@
+{
+ "ranAt": "2026-11-09T12:52:27.036Z",
+ "agent": "agent-vault-live",
+ "base": "https://api-m.sandbox.paypal.com",
+ "confirm": {
+  "ok": true,
+  "agent": "agent-vault-live",
+  "status": "active"
+ },
+ "charge": {
+  "message": "Charge USD 25.00 to merchant sb…@personal.example.com for order ORD-PV1-25 at 2026-11-09T12:52:30Z ref pv1-live-1794228750",
+  "result": {
+   "status": "submitted",
+   "request_id": "pv1-live-1794228750",
+   "paypal_order_id": "77N76052YX9609716",
+   "capture_id": "92X151453C0343351",
+   "payout_batch_id": "KUJK7ULWWJKMQ",
+   "batch_status": "PENDING"
+  }
+ },
+ "swapped_merchant": {
+  "status": "blocked",
+  "request_id": "pv1-live-1794228750-swap",
+  "error_code": "PP3_BAD_SIGNATURE",
+  "detail": "the signature does not recover to the agent EOA over this order's message"
+ },
+ "revoke": {
+  "ok": true,
+  "agent": "agent-vault-live",
+  "status": "revoked",
+  "token_http_after": 404
+ },
+ "charge_after_revoke": {
+  "status": "blocked",
+  "request_id": "pv1-live-1794228750-after",
+  "error_code": "PP3_REQUEST_NOT_FOUND",
+  "detail": "no agent request pv1-live-1794228750-after for agent-vault-live"
+ }
+}

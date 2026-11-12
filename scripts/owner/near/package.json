@@ -1,0 +1,23 @@
+{
+  "name": "@nearh/owner-near",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "test": "node --test \"test/**/*.test.ts\"",
+    "keygen": "node src/cli/keygen.ts",
+    "deploy-contract": "node src/cli/deploy.ts",
+    "add-agent": "node src/cli/add-agent.ts",
+    "set-relayer": "node src/cli/set-relayer.ts",
+    "set-mandate": "node src/cli/set-mandate.ts",
+    "add-payee": "node src/cli/add-payee.ts",
+    "owner:revoke": "node src/cli/revoke.ts",
+    "list-keys": "node src/cli/list-keys.ts"
+  },
+  "dependencies": {
+    "@noble/curves": "^2.4.0",
+    "@noble/hashes": "^2.4.0"
+  }
+}

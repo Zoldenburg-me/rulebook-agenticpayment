@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>nearH S-h passkey spike</title>
+<style>
+  body { font: 16px/1.4 system-ui, sans-serif; max-width: 40rem; margin: 2rem auto; padding: 0 1rem; }
+  button { font-size: 1.1rem; padding: .7rem 1.2rem; margin: .4rem 0; display: block; width: 100%; }
+  pre { background: #f4f4f4; padding: .8rem; overflow-x: auto; font-size: .75rem; white-space: pre-wrap; word-break: break-all; }
+  #status { font-weight: 600; }
+</style>
+</head>
+<body>
+<h1>Passkey spike (test only)</h1>
+<p>Creates a throwaway passkey for this site and signs one fixed test challenge.
+The result (public key + signature, no secrets) is saved to the Mac for an on-chain test.</p>
+<button id="create">1. Create passkey</button>
+<button id="sign" disabled>2. Sign test challenge and save</button>
+<p id="status"></p>
+<pre id="out"></pre>
+<script>
+const TAG = 'zold-mandate-v1 S-h spike test challenge';
+const $ = (id) => document.getElementById(id);
+const b64url = (buf) => btoa(String.fromCharCode(...new Uint8Array(buf)))
+  .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+const fromB64url = (s) => Uint8Array.from(atob(s.replace(/-/g, '+').replace(/_/g, '/')), (c) => c.charCodeAt(0));
+const status = (msg) => { $('status').textContent = msg; };
+
+let cred = JSON.parse(localStorage.getItem('sh-cred') || 'null');
+if (cred) { $('sign').disabled = false; status('Passkey exists. Tap 2.'); }
+
+$('create').onclick = async () => {
+  try {
+    status('Creating passkey...');
+    const c = await navigator.credentials.create({ publicKey: {
+      rp: { id: location.hostname, name: 'nearH S-h spike' },
+      user: { id: crypto.getRandomValues(new Uint8Array(16)), name: 'sh-spike', displayName: 'nearH S-h spike' },
+      challenge: crypto.getRandomValues(new Uint8Array(32)),
+      pubKeyCredParams: [{ type: 'public-key', alg: -7 }], // ES256 only
+      authenticatorSelection: { residentKey: 'preferred', userVerification: 'preferred' },
+      attestation: 'none',
+    }});
+    if (c.response.getPublicKeyAlgorithm() !== -7) throw new Error('authenticator did not pick ES256');
+    const spki = c.response.getPublicKey();
+    if (!spki) throw new Error('browser has no getPublicKey(); try a current Safari/Chrome');
+    cred = { id: b64url(c.rawId), publicKeySpki: b64url(spki) };
+    localStorage.setItem('sh-cred', JSON.stringify(cred));
+    $('sign').disabled = false;
+    status('Passkey created. Now tap 2.');
+  } catch (e) { status('Create failed: ' + e); }
+};
+
+$('sign').onclick = async () => {
+  try {
+    status('Signing...');
+    const challenge = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(TAG));
+    const a = await navigator.credentials.get({ publicKey: {
+      rpId: location.hostname,
+      challenge,
+      allowCredentials: [{ type: 'public-key', id: fromB64url(cred.id) }],
+      userVerification: 'preferred',
+    }});
+    const blob = {
+      rpId: location.hostname,
+      origin: location.origin,
+      credentialId: cred.id,
+      publicKeySpki: cred.publicKeySpki,
+      authenticatorData: b64url(a.response.authenticatorData),
+      clientDataJSON: b64url(a.response.clientDataJSON),
+      signature: b64url(a.response.signature), // ASN.1 DER, as the browser returns it
+      challengeTag: TAG,
+      capturedAt: new Date().toISOString(),
+    };
+    $('out').textContent = JSON.stringify(blob, null, 2);
+    const r = await fetch('save', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(blob) });
+    status(r.ok ? 'Saved to the Mac. Done, thank you!' : 'Save failed (' + r.status + '): copy the JSON below to the team.');
+  } catch (e) { status('Sign failed: ' + e); }
+};
+</script>
+</body>
+</html>

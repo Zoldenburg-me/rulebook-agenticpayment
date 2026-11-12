@@ -1,0 +1,50 @@
+{"at":"2026-11-03T10:50:30.895Z","endpoint":"/auth/token","method":"POST","status":200}
+{"at":"2026-11-03T10:50:31.088Z","endpoint":"/auth/context","method":"GET","status":200}
+{"at":"2026-11-03T10:50:31.091Z","step":"run","result":"incomplete"}
+{"at":"2026-11-03T10:51:41.081Z","endpoint":"/auth/token","method":"POST","status":200}
+{"at":"2026-11-03T10:51:41.170Z","endpoint":"/auth/context","method":"GET","status":200}
+{"at":"2026-11-03T10:51:44.410Z","step":"derived_address","address":"0xE0A8bb55759D9565113E125f5f2937Bf2f85e52E","accountId":"nearh-cc1-1793550206.testnet","path":"nearh-sb-monerium"}
+{"at":"2026-11-03T10:51:44.485Z","endpoint":"/addresses","method":"GET","status":200}
+{"at":"2026-11-03T10:51:44.485Z","step":"preflight","linked":false,"profileAddressCount":0}
+{"at":"2026-11-03T10:52:10.122Z","endpoint":"/auth/token","method":"POST","status":200}
+{"at":"2026-11-03T10:52:10.222Z","endpoint":"/auth/context","method":"GET","status":200}
+{"at":"2026-11-03T10:52:13.460Z","step":"derived_address","address":"0xE0A8bb55759D9565113E125f5f2937Bf2f85e52E","accountId":"nearh-cc1-1793550206.testnet","path":"nearh-sb-monerium"}
+{"at":"2026-11-03T10:52:13.543Z","endpoint":"/addresses","method":"GET","status":200}
+{"at":"2026-11-03T10:52:13.544Z","step":"preflight","linked":false,"profileAddressCount":0}
+{"at":"2026-11-03T10:52:24.930Z","step":"mpc_sign","nearTx":"4p5Kn6LaF5WD7hL972jisKS8uSrnG7YZ59wTSh34QTXs","recoveredAddressMatches":true}
+{"at":"2026-11-03T10:52:25.282Z","endpoint":"/addresses","method":"POST","status":201}
+{"at":"2026-11-03T10:52:25.283Z","step":"link","result":"linked"}
+{"at":"2026-11-03T10:52:30.108Z","endpoint":"/auth/token","method":"POST","status":200}
+{"at":"2026-11-03T10:52:30.209Z","endpoint":"/auth/context","method":"GET","status":200}
+{"at":"2026-11-03T10:52:33.455Z","step":"derived_address","address":"0xE0A8bb55759D9565113E125f5f2937Bf2f85e52E","accountId":"nearh-cc1-1793550206.testnet","path":"nearh-sb-monerium"}
+{"at":"2026-11-03T10:52:33.545Z","endpoint":"/addresses","method":"GET","status":200}
+{"at":"2026-11-03T10:52:33.545Z","step":"preflight","linked":true,"profileAddressCount":1}
+{"at":"2026-11-03T10:52:33.638Z","endpoint":"/ibans","method":"GET","status":200}
+{"at":"2026-11-03T10:52:33.828Z","endpoint":"/ibans","method":"POST","status":202}
+{"at":"2026-11-03T10:52:33.936Z","endpoint":"/ibans","method":"GET","status":200}
+{"at":"2026-11-03T10:52:33.937Z","step":"iban","result":"requested_not_yet_listed","requestStatus":202}
+{"at":"2026-11-03T10:52:52.093Z","endpoint":"/auth/token","method":"POST","status":200}
+{"at":"2026-11-03T10:52:52.179Z","endpoint":"/auth/context","method":"GET","status":200}
+{"at":"2026-11-03T10:52:55.401Z","step":"derived_address","address":"0xE0A8bb55759D9565113E125f5f2937Bf2f85e52E","accountId":"nearh-cc1-1793550206.testnet","path":"nearh-sb-monerium"}
+{"at":"2026-11-03T10:52:55.503Z","endpoint":"/addresses","method":"GET","status":200}
+{"at":"2026-11-03T10:52:55.504Z","step":"preflight","linked":true,"profileAddressCount":1}
+{"at":"2026-11-03T10:52:55.593Z","endpoint":"/ibans","method":"GET","status":200}
+{"at":"2026-11-03T10:52:55.593Z","step":"iban","result":"already_issued"}
+{"at":"2026-11-04T20:52:00Z","manual":true,"note":"Hand-added: read by a team member from the authenticated Monerium API (GET /balances, GET /orders), not written by the runner; time approximate (read just before the payout run)","step":"mint_verified","balanceEur":"100","orderId":"6668ee04-d891-11f1-a9cb-fa98e9983566","kind":"issue","amount":"100","state":"processed","chain":"basesepolia","txHashes":["0x10782d1e4f3fe78795c609edd3a28acce01dcaa7f97cbbf1a0198fcc91e63a06"]}
+{"at":"2026-11-04T20:52:41.227Z","endpoint":"/auth/token","method":"POST","status":200}
+{"at":"2026-11-04T20:52:41.335Z","endpoint":"/auth/context","method":"GET","status":200}
+{"at":"2026-11-04T20:52:44.681Z","step":"derived_address","address":"0xE0A8bb55759D9565113E125f5f2937Bf2f85e52E","accountId":"nearh-cc1-1793550206.testnet","path":"nearh-sb-monerium"}
+{"at":"2026-11-04T20:52:44.766Z","endpoint":"/addresses","method":"GET","status":200}
+{"at":"2026-11-04T20:52:44.766Z","step":"preflight","linked":true,"profileAddressCount":1}
+{"at":"2026-11-04T20:52:44.942Z","endpoint":"/balances/basesepolia/0xE0A8bb55759D9565113E125f5f2937Bf2f85e52E","method":"GET","status":200}
+{"at":"2026-11-04T20:52:44.943Z","step":"funding","sufficientSandboxEure":true}
+{"at":"2026-11-04T20:52:57.070Z","step":"mpc_sign","nearTx":"ANLwCeMGQ2A4Mx8qQgBNe5pRH3Nq9nwDMZkpCgz12ox4","recoveredAddressMatches":true}
+{"at":"2026-11-04T20:52:57.071Z","step":"payout_message","amount":"0.01","timestamp":"2026-11-04T20:52:44Z","message":"Send EUR 0.01 to <SANDBOX_IBAN> at 2026-11-04T20:52:44Z"}
+{"at":"2026-11-04T20:52:57.071Z","step":"payout_attempt"}
+{"at":"2026-11-04T20:52:57.365Z","endpoint":"/orders","method":"POST","status":200}
+{"at":"2026-11-04T20:52:57.365Z","step":"payout","orderId":"32298aa0-cbd1-425d-9ba5-012295db6b80","state":"pending"}
+{"at":"2026-11-04T20:52:57.717Z","endpoint":"/orders","method":"POST","status":400,"error":"duplicate"}
+{"at":"2026-11-04T20:52:57.719Z","step":"replay","result":"rejected_duplicate","status":400,"sameOrderId":false,"refusal":{"code":400,"status":"Bad Request","message":"Duplicate order"}}
+{"at":"2026-11-04T20:52:57.719Z","step":"result","result":"accepted_payout_and_duplicate_rejected","settlementVerified":false}
+{"at":"2026-11-04T20:53:33Z","manual":true,"note":"Hand-added: read by a team member from the authenticated Monerium API (GET /orders), not written by the runner","step":"payout_processed","orderId":"32298aa0-cbd1-425d-9ba5-012295db6b80","kind":"redeem","amount":"0.01","state":"processed","chain":"basesepolia","txHashes":["0x3b9ffba3a95510805cd716c2b947cf0fcbffbfd103a468864bd4fad0543d02e3"]}
+{"at":"2026-11-04T20:53:33Z","manual":true,"note":"Hand-added: the payout recipient was the profile's own sandbox IBAN, so Monerium issued the 0.01 back to the EOA","step":"payout_returned","orderId":"9ea34945-5dbe-4fc8-a969-e8e1ee730178","kind":"issue","amount":"0.01","state":"processed","chain":"basesepolia","txHashes":["0xbd3626ec0bab7dc00c4a808ea1ffdb15a8ce132066f3ee77b303ab58d761379e"]}

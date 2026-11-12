@@ -1,0 +1,20 @@
+{
+  "name": "@nearh/rails-paypal",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "test": "node --test \"test/**/*.test.ts\"",
+    "start": "node src/cli/serve.ts",
+    "submit": "node src/cli/submit.ts",
+    "webhook": "node src/cli/webhook.ts",
+    "refunds": "node src/cli/refunds.ts"
+  },
+  "dependencies": {
+    "@nearh/owner-near": "workspace:*",
+    "@noble/curves": "^2.4.0",
+    "@noble/hashes": "^2.4.0"
+  }
+}

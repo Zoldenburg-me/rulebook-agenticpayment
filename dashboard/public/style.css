@@ -1,0 +1,16 @@
+body { font-family: system-ui, sans-serif; margin: 1.5rem; color: #1b1b1b; }
+header { display: flex; gap: 1rem; align-items: baseline; }
+h1 { font-size: 1.4rem; margin: 0; }
+h2 { font-size: 1.1rem; margin-top: 1.5rem; }
+table { border-collapse: collapse; }
+td, th { border-bottom: 1px solid #ddd; padding: 0.3rem 0.6rem; text-align: left; vertical-align: top; }
+.badge { padding: 0.1rem 0.5rem; border-radius: 0.6rem; background: #eee; font-size: 0.85rem; }
+.status-active, .status-allowed, .status-approved { background: #d4f2d9; }
+.status-held, .status-pending, .status-unknown { background: #fff0c2; }
+.status-revoked, .status-blocked, .status-rejected { background: #f8d2d2; }
+#errors { color: #a00000; }
+#counts li { display: inline-block; margin-right: 1rem; }
+.held-item { border: 1px solid #ddd; border-radius: 0.4rem; padding: 0.6rem; margin-bottom: 0.6rem; max-width: 50rem; }
+.held-item pre { white-space: pre-wrap; background: #f6f6f6; padding: 0.4rem; }
+.note { color: #555; font-size: 0.85rem; max-width: 50rem; }
+.suspended { color: #a00000; font-weight: 600; }

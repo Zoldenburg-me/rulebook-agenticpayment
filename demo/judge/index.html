@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rulebook</title>
+  <meta name="description" content="A verifiable rulebook for agentic payments: PayPal sandbox and NEAR testnet.">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="hero">
+    <p class="eyebrow">Rulebook · PayPal sandbox · NEAR testnet</p>
+    <h1>We built a verifiable rulebook for agentic payments.</h1>
+    <p class="lede">The rules live in a public NEAR contract that anyone can read, and every refusal is a transaction anyone can check. The agent never holds a PayPal key.</p>
+    <p class="hook">From 2013 to 2015, Google and Facebook paid over USD 100 million to a fake supplier with a real company's name and real-looking invoices (<a href="https://www.justice.gov/usao-sdny/pr/lithuanian-man-sentenced-5-years-prison-theft-over-120-million-fraudulent-business" rel="noopener">US DOJ press release</a>; the companies confirmed they were the victims). Now imagine an AI agent paying your invoices.</p>
+    <div class="split">
+      <div><h2>The contract enforces</h2><p>allowed payees or merchants, the per-payment cap, the budget per period, a validity window of at most 5 minutes per signed order, pay-once per request_id, and revoke.</p></div>
+      <div><h2>The AI scam check</h2><p>reads each invoice, listing or ticket and can hold it for the owner. It can only hold, never loosen the rulebook: a fooled AI still can't pay a lookalike.</p></div>
+    </div>
+  </header>
+
+  <main>
+    <nav class="tabs" role="tablist" aria-label="Stories">
+      <button role="tab" id="tab-anya" aria-controls="story" aria-selected="true" data-story="anya">Anya's Coffeehouse</button>
+      <button role="tab" id="tab-hank" aria-controls="story" aria-selected="false" data-story="hank">Hank's trading card</button>
+    </nav>
+    <section id="story" role="tabpanel" aria-live="polite"></section>
+
+    <section class="verify" id="verify">
+      <h2>Verify it yourself</h2>
+      <p>The live refunds run used the contract <code id="contract-id"></code> on NEAR testnet, agent <code>support-1</code>. Its rulebook is public: read it with a view call (no key, no account).</p>
+      <pre id="view-cli"></pre>
+      <p>or over plain JSON-RPC:</p>
+      <pre id="view-rpc"></pre>
+      <p>It answers with the mandate, including <code>"paypal_refund":{"amount_range":{"min":"1","max":"1000"},"budget":"1500","period_secs":86400}</code>: USD 10.00 per refund, USD 15.00 per day.</p>
+      <p>The injected refund it refused on chain: <a id="refusal-link" rel="noopener"></a> (<code>ERR_OVER_PER_PAYMENT_CAP</code>).</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>Sandbox and testnet only. A <span class="label replay">replay</span> runs here on the mock contract and mock PayPal, with no network call; a <span class="label live">live run</span> is a recorded run on the PayPal sandbox (and NEAR testnet where it says so). Payees are masked.</p>
+  </footer>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

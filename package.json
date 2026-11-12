@@ -1,0 +1,13 @@
+{
+  "name": "nearh",
+  "private": true,
+  "packageManager": "pnpm@12.16.1",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test \"test/**/*.test.mjs\"",
+    "demo": "echo \"pnpm demo: not implemented yet (task E1)\" && exit 1",
+    "demo:paypal": "pnpm --filter @nearh/demo demo:paypal"
+  }
+}

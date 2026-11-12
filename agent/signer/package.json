@@ -1,0 +1,30 @@
+{
+  "name": "@nearh/agent-signer",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "pay": "node --env-file-if-exists=../../.env --env-file-if-exists=../.env src/cli/pay.ts",
+    "test": "pnpm run typecheck && node --test \"test/**/*.test.ts\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@nearh/owner-near": "workspace:*",
+    "@noble/curves": "^2.4.0",
+    "@noble/hashes": "^2.4.0",
+    "@x402/core": "2.30.0",
+    "@x402/evm": "2.30.0",
+    "@x402/fetch": "2.30.0",
+    "viem": "2.57.16"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "seller": "workspace:*",
+    "typescript": "^5.9.3"
+  }
+}

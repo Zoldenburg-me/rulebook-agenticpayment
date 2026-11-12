@@ -1,0 +1,6 @@
+{
+  "public_key": "A7lNPok45TXrL6gloCDZNIu6yBoEMGFs5f6aBhSbIyij",
+  "authenticator_data": "SZYN5YgOjGh0NBcPZHZgW4/krrmihjLHmVzzuoMdl2MFAAAAAA==",
+  "client_data_json": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiWFV3MXNEb1l0cndoU2d4MmY4WVQ0T2pCNlJRbnI0eVlsTTgwQnJYdjVPZyIsIm9yaWdpbiI6Imh0dHBzOi8vbG9jYWxob3N0Ojg0NDMiLCJjcm9zc09yaWdpbiI6ZmFsc2V9",
+  "signature": "3WjELH/W5j5i6RGUGXZgc/2Hk2WCLRZx+5E9C8cd7wPbgollWxbpeGGF9Hn2t8tce8e7RUnToOhZ9t1BStM4ug=="
+}

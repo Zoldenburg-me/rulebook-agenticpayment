@@ -1,0 +1,29 @@
+[package]
+name = "mandate"
+version = "0.1.0"
+edition.workspace = true
+publish = false
+# near-sdk 5.30 needs 1.95; rust-toolchain.toml pins the build toolchain
+rust-version = "1.95"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+# Hashing and signature checks use near-sdk host functions, so the wasm carries no
+# hash or curve crates: env::sha256_array (WebAuthn challenge), env::keccak256_array
+# (EIP-712, EIP-191, EIP-3009 nonces), env::p256_verify (passkey owner, NEP-635;
+# present in near-sdk 5.30 without a feature flag) and env::ecrecover (MPC signature check;
+# behind near-sdk's `unstable` feature, which adds no crate). JSON parsing of clientDataJSON and of
+# the MPC response uses near-sdk's re-exported serde_json, borsh and base64 (strict
+# base64url challenge); hex encodes digests, nonces and calldata.
+[dependencies]
+near-sdk = { version = "5.30.0", features = ["unstable"] }
+hex = "0.4"
+
+[dev-dependencies]
+near-sdk = { version = "5.30.0", features = ["unit-testing"] }
+# Software P-256 key that signs owner assertions in unit tests (C2) and the T1 harness.
+p256 = { version = "0.13", features = ["ecdsa"] }
+# Stands in for the MPC's derived agent key in unit tests (tests/mock_mpc). The version
+# near-sdk's unit-testing already locks, so no new crate.
+secp256k1 = { version = "0.27", features = ["recovery"] }

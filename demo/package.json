@@ -1,0 +1,27 @@
+{
+  "name": "@nearh/demo",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "demo:paypal": "node src/paypal-demo.ts",
+    "test": "node --test \"test/**/*.test.ts\" && playwright install chromium && playwright test",
+    "demo:refunds": "node src/pt1-refunds.ts",
+    "judge": "node src/judge-server.ts"
+  },
+  "dependencies": {
+    "@nearh/agent-mcp": "workspace:*",
+    "@nearh/dashboard": "workspace:*",
+    "@nearh/owner-near": "workspace:*",
+    "@nearh/rails-paypal": "workspace:*",
+    "@nearh/supplier": "workspace:*",
+    "@noble/curves": "^2.4.0",
+    "@noble/hashes": "^2.4.0",
+    "scamcheck": "workspace:*"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.1"
+  }
+}

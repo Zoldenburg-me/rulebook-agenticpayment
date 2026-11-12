@@ -1,0 +1,58 @@
+name: Audit
+
+# Dependency audits: nightly, on demand, and on PRs that change a lockfile.
+# Split from ci.yml so ordinary PRs don't pay for them (see the cost rules there).
+
+on:
+  pull_request:
+    paths:
+      - Cargo.lock
+      - contract/tests/integration/Cargo.lock
+      - pnpm-lock.yaml
+      - .github/workflows/audit.yml
+  schedule:
+    - cron: "0 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  # Only PR runs cancel each other; a manual run must not kill the nightly.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  CARGO_AUDIT_VERSION: 0.22.2
+
+jobs:
+  cargo-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      # Same pin as ci.yml.
+      - uses: dtolnay/rust-toolchain@683b588c487a69d01f6c6ddf40f036ff682cc2c8 # master
+        with:
+          toolchain: 1.99.1
+      # Compile cargo-audit once per version and keep it in the cache.
+      - id: tools
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.cargo-tools
+          key: cargo-audit-${{ env.CARGO_AUDIT_VERSION }}-${{ runner.os }}-${{ runner.arch }}
+      - if: steps.tools.outputs.cache-hit != 'true'
+        run: cargo install --locked --root ~/.cargo-tools cargo-audit@${CARGO_AUDIT_VERSION}
+      - run: echo "$HOME/.cargo-tools/bin" >> "$GITHUB_PATH"
+      # The integration suite has its own lockfile, so audit both.
+      - run: cargo audit
+      - run: cargo audit --file contract/tests/integration/Cargo.lock
+
+  pnpm-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 22
+      - run: pnpm audit --prod

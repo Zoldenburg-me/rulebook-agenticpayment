@@ -1,0 +1,13 @@
+{
+  "name": "spike-monerium",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node spike.mjs",
+    "test": "node --test spike.test.mjs"
+  },
+  "dependencies": {
+    "near-api-js": "7.4.0",
+    "viem": "2.57.13"
+  }
+}

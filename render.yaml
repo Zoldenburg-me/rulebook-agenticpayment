@@ -1,0 +1,16 @@
+# Render blueprint for the Rulebook judge page. The owner deploys it; nothing here is a secret,
+# and the service needs none (no envVars beyond host and port).
+services:
+  - type: web
+    name: rulebook-judge
+    runtime: docker
+    dockerfilePath: ./demo/judge/Dockerfile
+    dockerContext: .
+    plan: free
+    autoDeploy: false
+    healthCheckPath: /healthz
+    envVars:
+      - key: HOST
+        value: 0.0.0.0
+      - key: PORT
+        value: "8080"

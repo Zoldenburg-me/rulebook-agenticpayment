@@ -1,0 +1,14 @@
+# Keep local secrets, build output and test artefacts out of the judge page image.
+.git
+**/.env
+**/.env.*
+!**/.env.example
+**/node_modules
+**/target
+**/test-results
+**/playwright-report
+**/.orders
+**/.held
+**/*.pem
+**/*.key
+spikes

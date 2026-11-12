@@ -1,0 +1,17 @@
+.env*
+!.env.example
+*.pem
+*.key
+credentials.json
+*.p12
+*.pfx
+*.keystore
+.near-credentials/
+node_modules/
+target/
+.DS_Store
+.agents/
+.opencode/
+
+# PP-V0 owner approve link (sandbox)
+spikes/paypal-vault/APPROVE.md

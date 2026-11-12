@@ -1,0 +1,112 @@
+name: CI
+
+# Cost rules (Nov 5: the old setup used 2,071 minutes in 5 days and hit the plan limit):
+# - The Rust job runs only when Rust files change. The JS job skips docs-only changes.
+# - No run on push to main: the PR already ran it, and a nightly run checks main instead.
+# - A newer push to the same PR cancels the older run.
+# - cargo-near and cargo-audit are compiled once and cached by version, not on every run.
+# - Audits live in audit.yml (nightly, and when a lockfile changes).
+
+on:
+  pull_request:
+  schedule:
+    - cron: "30 2 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  # Only PR runs cancel each other; a manual run must not kill the nightly.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  CARGO_NEAR_VERSION: 0.22.0
+
+# Actions are pinned to commit SHAs; the comment shows the tag each SHA was resolved from.
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      rust: ${{ steps.filter.outputs.rust }}
+      js: ${{ steps.filter.outputs.js }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+      - id: filter
+        env:
+          EVENT: ${{ github.event_name }}
+          BASE: ${{ github.event.pull_request.base.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          # Nightly and manual runs check everything.
+          if [ "$EVENT" != "pull_request" ]; then
+            echo "rust=true" >> "$GITHUB_OUTPUT"; echo "js=true" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          rust=false; js=false
+          while IFS= read -r f; do
+            case "$f" in
+              # interface_tests.rs include_str!s docs/interfaces.md, so it counts as Rust.
+              contract/*|Cargo.toml|Cargo.lock|rust-toolchain.toml|.github/workflows/*|docs/interfaces.md) rust=true ;;
+            esac
+            case "$f" in
+              *.md|docs/*) ;;
+              *) js=true ;;
+            esac
+          done < <(git diff --name-only "$BASE...$HEAD")
+          echo "rust=$rust" >> "$GITHUB_OUTPUT"; echo "js=$js" >> "$GITHUB_OUTPUT"
+          echo "rust=$rust js=$js"
+
+  cargo:
+    needs: changes
+    if: needs.changes.outputs.rust == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      # Same version as rust-toolchain.toml; rustup also reads that file inside the repo.
+      - uses: dtolnay/rust-toolchain@683b588c487a69d01f6c6ddf40f036ff682cc2c8 # master
+        with:
+          toolchain: 1.99.1
+          targets: wasm32-unknown-unknown
+          components: rustfmt
+      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2
+        with:
+          workspaces: |
+            . -> target
+            contract/tests/integration -> target
+      - run: cargo fmt --all --check
+      - run: cargo test --locked
+      # The integration tests build the contract with `cargo near build`; hidapi needs libudev.
+      - name: libudev
+        run: |
+          if ! pkg-config --exists libudev 2>/dev/null; then
+            sudo apt-get update && sudo apt-get install -y --no-install-recommends libudev-dev pkg-config
+          fi
+      # Compile cargo-near once per version and keep it in the cache.
+      - id: tools
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.cargo-tools
+          key: cargo-near-${{ env.CARGO_NEAR_VERSION }}-${{ runner.os }}-${{ runner.arch }}
+      - if: steps.tools.outputs.cache-hit != 'true'
+        run: cargo install --locked --root ~/.cargo-tools cargo-near@${CARGO_NEAR_VERSION}
+      - run: echo "$HOME/.cargo-tools/bin" >> "$GITHUB_PATH"
+      # T1 sandbox integration tests (near-workspaces), their own cargo workspace.
+      - run: cargo test --locked --manifest-path contract/tests/integration/Cargo.toml
+
+  pnpm:
+    needs: changes
+    if: needs.changes.outputs.js == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      # No version input: pnpm comes from packageManager in package.json.
+      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm -r test

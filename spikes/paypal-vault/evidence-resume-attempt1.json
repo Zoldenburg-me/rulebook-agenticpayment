@@ -1,0 +1,58 @@
+{
+  "base": "https://api-m.sandbox.paypal.com",
+  "runs": [
+    {
+      "ranAt": "2026-11-09T10:20:22.342Z",
+      "steps": [
+        {
+          "step": "0:oauth",
+          "status": 200,
+          "debugId": "f3530612712f3",
+          "expires_in": 31217,
+          "scopeHasVault": true,
+          "vaultScopes": [
+            "https://uri.paypal.com/services/vault/payment-tokens/read",
+            "https://api.paypal.com/v1/vault/credit-card",
+            "https://uri.paypal.com/services/vault/payment-tokens/readwrite",
+            "Braintree:Vault",
+            "https://api.paypal.com/v1/vault/credit-card/.*"
+          ]
+        },
+        {
+          "step": "3a:get-setup-token",
+          "status": 200,
+          "debugId": "f353061674b95",
+          "response": {
+            "id": "9RJ86983E5394083A",
+            "customer": {
+              "id": "CqCpQdOSRi"
+            },
+            "status": "VAULTED",
+            "payment_source": {
+              "paypal": {
+                "description": "nearh agent spending account (sandbox spike)",
+                "usage_pattern": "IMMEDIATE",
+                "permit_multiple_payment_tokens": true,
+                "usage_type": "MERCHANT",
+                "customer_type": "CONSUMER",
+                "email_address": "sb-…@…",
+                "payer_id": "7XATW3XCXUKEJ"
+              }
+            }
+          }
+        },
+        {
+          "step": "3b:create-payment-token",
+          "status": 500,
+          "debugId": "f562908673eaa",
+          "response": {
+            "name": "INTERNAL_SERVER_ERROR",
+            "message": "An internal server error has occurred.",
+            "debug_id": "f562908673eaa",
+            "details": []
+          }
+        }
+      ]
+    }
+  ]
+}

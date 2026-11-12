@@ -1,0 +1,17 @@
+{
+  "name": "@nearh/owner-safe",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "test": "node --test \"test/**/*.test.ts\"",
+    "passkey": "node src/cli/passkey.ts",
+    "topup": "node src/cli/topup.ts",
+    "sweep": "node src/cli/sweep.ts"
+  },
+  "dependencies": {
+    "abstractionkit": "0.4.3"
+  }
+}

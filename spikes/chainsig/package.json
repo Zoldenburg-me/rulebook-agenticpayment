@@ -1,0 +1,14 @@
+{
+  "name": "spike-chainsig",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node chainsig.mjs"
+  },
+  "dependencies": {
+    "@noble/curves": "^2.4.0",
+    "@noble/hashes": "^2.4.0",
+    "near-api-js": "^7.4.0",
+    "viem": "^2.57.13"
+  }
+}

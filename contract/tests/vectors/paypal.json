@@ -1,0 +1,219 @@
+{
+ "_comment": "Shared PayPal shape 4 vectors. The contract (normalize_receiver, amount_to_cents) is the source of truth; scamcheck and rails/paypal test against the same file. output/cents null = refused.",
+ "receivers": [
+  {
+   "input": "supplier@example.com",
+   "output": "supplier@example.com"
+  },
+  {
+   "input": "Supplier@Example.COM",
+   "output": "supplier@example.com"
+  },
+  {
+   "input": "  supplier@example.com\t\n",
+   "output": "supplier@example.com"
+  },
+  {
+   "input": "\r\fsupplier@example.com ",
+   "output": "supplier@example.com"
+  },
+  {
+   "input": "First.Last+Tag@Sub.Example.co.uk",
+   "output": "first.last+tag@sub.example.co.uk"
+  },
+  {
+   "input": "sb-abc123@personal.example.com",
+   "output": "sb-abc123@personal.example.com"
+  },
+  {
+   "input": "@Acme_Supplies",
+   "output": "@acme_supplies"
+  },
+  {
+   "input": " @acme-pay ",
+   "output": "@acme-pay"
+  },
+  {
+   "input": "supplier@example.com\u000b",
+   "output": null
+  },
+  {
+   "input": "\u00a0supplier@example.com",
+   "output": null
+  },
+  {
+   "input": "supplier@example.com\u00a0",
+   "output": null
+  },
+  {
+   "input": "supplier@\u212aelvin.example",
+   "output": null
+  },
+  {
+   "input": "supplier@\u0130stanbul.example",
+   "output": null
+  },
+  {
+   "input": "supplier@exampIe.com",
+   "output": "supplier@exampie.com"
+  },
+  {
+   "input": "supplier@example.com\u2028",
+   "output": null
+  },
+  {
+   "input": "supplier@example.com\u3000",
+   "output": null
+  },
+  {
+   "input": "supplier\u200b@example.com",
+   "output": null
+  },
+  {
+   "input": "sup plier@example.com",
+   "output": null
+  },
+  {
+   "input": "supplier@example",
+   "output": null
+  },
+  {
+   "input": "supplier@@example.com",
+   "output": null
+  },
+  {
+   "input": "@abcd",
+   "output": null
+  },
+  {
+   "input": "@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+   "output": null
+  },
+  {
+   "input": "",
+   "output": null
+  }
+ ],
+ "amounts": [
+  {
+   "amount": "0.01",
+   "cents": 1
+  },
+  {
+   "amount": "1.00",
+   "cents": 100
+  },
+  {
+   "amount": "10.50",
+   "cents": 1050
+  },
+  {
+   "amount": "999999999999.99",
+   "cents": 99999999999999
+  },
+  {
+   "amount": "100000000000.00",
+   "cents": 10000000000000
+  },
+  {
+   "amount": "0.00",
+   "cents": null
+  },
+  {
+   "amount": "1000000000000.00",
+   "cents": null
+  },
+  {
+   "amount": "0000000000001.00",
+   "cents": null
+  },
+  {
+   "amount": "00.01",
+   "cents": null
+  },
+  {
+   "amount": "01.00",
+   "cents": null
+  },
+  {
+   "amount": "1",
+   "cents": null
+  },
+  {
+   "amount": "1.0",
+   "cents": null
+  },
+  {
+   "amount": "1.000",
+   "cents": null
+  },
+  {
+   "amount": ".50",
+   "cents": null
+  },
+  {
+   "amount": "1.",
+   "cents": null
+  },
+  {
+   "amount": "+1.00",
+   "cents": null
+  },
+  {
+   "amount": "-1.00",
+   "cents": null
+  },
+  {
+   "amount": " 1.00",
+   "cents": null
+  },
+  {
+   "amount": "1.00 ",
+   "cents": null
+  },
+  {
+   "amount": "1.00\n",
+   "cents": null
+  },
+  {
+   "amount": "\n1.00",
+   "cents": null
+  },
+  {
+   "amount": "1,000.00",
+   "cents": null
+  },
+  {
+   "amount": "1e3.00",
+   "cents": null
+  },
+  {
+   "amount": "1..00",
+   "cents": null
+  },
+  {
+   "amount": "1.00.00",
+   "cents": null
+  },
+  {
+   "amount": "",
+   "cents": null
+  },
+  {
+   "amount": "0x1.00",
+   "cents": null
+  },
+  {
+   "amount": "\u0661.\u0660\u0660",
+   "cents": null
+  },
+  {
+   "amount": "\uff11.\uff10\uff10",
+   "cents": null
+  },
+  {
+   "amount": "1.0\u0660",
+   "cents": null
+  }
+ ]
+}

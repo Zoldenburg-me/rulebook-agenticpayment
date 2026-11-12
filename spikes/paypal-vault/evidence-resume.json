@@ -1,0 +1,207 @@
+{
+  "base": "https://api-m.sandbox.paypal.com",
+  "runs": [
+    {
+      "ranAt": "2026-11-09T10:20:22.342Z",
+      "steps": [
+        {
+          "step": "0:oauth",
+          "status": 200,
+          "debugId": "f3530612712f3",
+          "expires_in": 31217,
+          "scopeHasVault": true,
+          "vaultScopes": [
+            "https://uri.paypal.com/services/vault/payment-tokens/read",
+            "https://api.paypal.com/v1/vault/credit-card",
+            "https://uri.paypal.com/services/vault/payment-tokens/readwrite",
+            "Braintree:Vault",
+            "https://api.paypal.com/v1/vault/credit-card/.*"
+          ]
+        },
+        {
+          "step": "3a:get-setup-token",
+          "status": 200,
+          "debugId": "f353061674b95",
+          "response": {
+            "id": "9RJ86983E5394083A",
+            "customer": {
+              "id": "CqCpQdOSRi"
+            },
+            "status": "VAULTED",
+            "payment_source": {
+              "paypal": {
+                "description": "nearh agent spending account (sandbox spike)",
+                "usage_pattern": "IMMEDIATE",
+                "permit_multiple_payment_tokens": true,
+                "usage_type": "MERCHANT",
+                "customer_type": "CONSUMER",
+                "email_address": "sb-…@…",
+                "payer_id": "7XATW3XCXUKEJ"
+              }
+            }
+          }
+        },
+        {
+          "step": "3b:create-payment-token",
+          "status": 500,
+          "debugId": "f562908673eaa",
+          "response": {
+            "name": "INTERNAL_SERVER_ERROR",
+            "message": "An internal server error has occurred.",
+            "debug_id": "f562908673eaa",
+            "details": []
+          }
+        }
+      ]
+    },
+    {
+      "ranAt": "2026-11-09T10:21:44.232Z",
+      "steps": [
+        {
+          "step": "0:oauth",
+          "status": 200,
+          "debugId": "f2028193c502c",
+          "expires_in": 31134,
+          "scopeHasVault": true,
+          "vaultScopes": [
+            "https://uri.paypal.com/services/vault/payment-tokens/read",
+            "https://api.paypal.com/v1/vault/credit-card",
+            "https://uri.paypal.com/services/vault/payment-tokens/readwrite",
+            "Braintree:Vault",
+            "https://api.paypal.com/v1/vault/credit-card/.*"
+          ]
+        },
+        {
+          "step": "3c:get-payment-token",
+          "status": 404,
+          "debugId": "f330043639512",
+          "response": {
+            "name": "RESOURCE_NOT_FOUND",
+            "message": "The specified resource does not exist.",
+            "debug_id": "f330043639512",
+            "details": [
+              {
+                "issue": "TOKEN_NOT_FOUND",
+                "description": "The specified token id does not exist."
+              }
+            ]
+          }
+        },
+        {
+          "step": "4:create-order",
+          "status": 403,
+          "debugId": "f417875dde548",
+          "request": {
+            "intent": "CAPTURE",
+            "purchase_units": [
+              {
+                "amount": {
+                  "currency_code": "USD",
+                  "value": "1.00"
+                },
+                "reference_id": "pp-v0-self",
+                "description": "PP-V0 vaulted charge, own merchant"
+              }
+            ],
+            "payment_source": {
+              "paypal": {
+                "vault_id": "ksx2gt8h",
+                "stored_credential": {
+                  "payment_initiator": "MERCHANT",
+                  "usage": "SUBSEQUENT",
+                  "usage_pattern": "IMMEDIATE"
+                }
+              }
+            }
+          },
+          "response": {
+            "name": "NOT_AUTHORIZED",
+            "details": [
+              {
+                "issue": "PERMISSION_DENIED",
+                "description": "You do not have permission to access or perform operations on this resource."
+              }
+            ],
+            "message": "Authorization failed due to insufficient permissions.",
+            "debug_id": "f417875dde548"
+          }
+        },
+        {
+          "step": "5:create-order",
+          "status": 403,
+          "debugId": "f5334114a73b8",
+          "request": {
+            "intent": "CAPTURE",
+            "purchase_units": [
+              {
+                "amount": {
+                  "currency_code": "USD",
+                  "value": "1.00"
+                },
+                "reference_id": "pp-v0-payee",
+                "description": "PP-V0 vaulted charge, third-party payee",
+                "payee": {
+                  "email_address": "sb-…@…"
+                }
+              }
+            ],
+            "payment_source": {
+              "paypal": {
+                "vault_id": "ksx2gt8h",
+                "stored_credential": {
+                  "payment_initiator": "MERCHANT",
+                  "usage": "SUBSEQUENT",
+                  "usage_pattern": "IMMEDIATE"
+                }
+              }
+            }
+          },
+          "response": {
+            "name": "NOT_AUTHORIZED",
+            "details": [
+              {
+                "issue": "PERMISSION_DENIED",
+                "description": "You do not have permission to access or perform operations on this resource."
+              }
+            ],
+            "message": "Authorization failed due to insufficient permissions.",
+            "debug_id": "f5334114a73b8"
+          }
+        },
+        {
+          "step": "6a:delete-payment-token",
+          "status": 204,
+          "debugId": "f316585f7e5d0",
+          "response": {}
+        },
+        {
+          "step": "6b:get-after-delete",
+          "status": 404,
+          "debugId": "f354760f8a444",
+          "response": {
+            "name": "RESOURCE_NOT_FOUND",
+            "message": "The specified resource does not exist.",
+            "debug_id": "f354760f8a444",
+            "details": []
+          }
+        },
+        {
+          "step": "6c:charge-after-delete",
+          "status": 403,
+          "debugId": "f480683704fa8",
+          "response": {
+            "name": "NOT_AUTHORIZED",
+            "details": [
+              {
+                "issue": "PERMISSION_DENIED",
+                "description": "You do not have permission to access or perform operations on this resource."
+              }
+            ],
+            "message": "Authorization failed due to insufficient permissions.",
+            "debug_id": "f480683704fa8"
+          }
+        }
+      ]
+    }
+  ]
+}

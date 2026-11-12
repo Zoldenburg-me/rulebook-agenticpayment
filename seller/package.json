@@ -1,0 +1,24 @@
+{
+  "name": "seller",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "start": "node src/main.ts",
+    "test": "pnpm run typecheck && node --test \"test/**/*.test.ts\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@x402/core": "2.30.0",
+    "@x402/evm": "2.30.0",
+    "@x402/express": "2.30.0",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.20.5",
+    "typescript": "^5.9.3"
+  }
+}

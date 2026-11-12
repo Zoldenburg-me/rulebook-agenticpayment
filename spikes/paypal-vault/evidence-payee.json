@@ -1,0 +1,158 @@
+{
+  "base": "https://api-m.sandbox.paypal.com",
+  "runs": [
+    {
+      "ranAt": "2026-11-09T09:50:46.305Z",
+      "steps": [
+        {
+          "step": "0:oauth",
+          "status": 200,
+          "debugId": "f7296386daeca",
+          "expires_in": 32347,
+          "scopeHasVault": true,
+          "vaultScopes": [
+            "https://uri.paypal.com/services/vault/payment-tokens/read",
+            "https://api.paypal.com/v1/vault/credit-card",
+            "https://uri.paypal.com/services/vault/payment-tokens/readwrite",
+            "Braintree:Vault",
+            "https://api.paypal.com/v1/vault/credit-card/.*"
+          ]
+        },
+        {
+          "step": "A-no-payee:create",
+          "status": 201,
+          "debugId": "f72963874c348",
+          "request": {
+            "intent": "CAPTURE",
+            "purchase_units": [
+              {
+                "amount": {
+                  "currency_code": "USD",
+                  "value": "1.00"
+                },
+                "reference_id": "probe-self"
+              }
+            ]
+          },
+          "response": {
+            "id": "0CD19809PW434671B",
+            "status": "CREATED"
+          }
+        },
+        {
+          "step": "A-no-payee:get",
+          "status": 200,
+          "debugId": "f185998796c7f",
+          "payee": {
+            "email_address": "sb-…@…",
+            "merchant_id": "7FTRBE8X7TC2Q"
+          },
+          "order_status": "CREATED"
+        },
+        {
+          "step": "B-payee-email:create",
+          "status": 201,
+          "debugId": "f18599862fc54",
+          "request": {
+            "intent": "CAPTURE",
+            "purchase_units": [
+              {
+                "amount": {
+                  "currency_code": "USD",
+                  "value": "1.00"
+                },
+                "reference_id": "probe-payee",
+                "payee": {
+                  "email_address": "sb-…@…"
+                }
+              }
+            ]
+          },
+          "response": {
+            "id": "1LG188169J533000F",
+            "status": "CREATED"
+          }
+        },
+        {
+          "step": "B-payee-email:get",
+          "status": 200,
+          "debugId": "f26136244337a",
+          "payee": {
+            "email_address": "sb-…@…"
+          },
+          "order_status": "CREATED"
+        },
+        {
+          "step": "C-payee-unknown:create",
+          "status": 201,
+          "debugId": "f583544b0fb1c",
+          "request": {
+            "intent": "CAPTURE",
+            "purchase_units": [
+              {
+                "amount": {
+                  "currency_code": "USD",
+                  "value": "1.00"
+                },
+                "reference_id": "probe-unknown",
+                "payee": {
+                  "email_address": "…@…"
+                }
+              }
+            ]
+          },
+          "response": {
+            "id": "5D747625W8465312G",
+            "status": "CREATED"
+          }
+        },
+        {
+          "step": "C-payee-unknown:get",
+          "status": 200,
+          "debugId": "f5861285e6cca",
+          "payee": {
+            "email_address": "…@…"
+          },
+          "order_status": "CREATED"
+        },
+        {
+          "step": "D-capture-unapproved",
+          "status": 422,
+          "debugId": "f586128ac213a",
+          "response": {
+            "name": "UNPROCESSABLE_ENTITY",
+            "details": [
+              {
+                "issue": "ORDER_NOT_APPROVED",
+                "description": "Payer has not yet approved the Order for payment. Please redirect the payer to the 'rel':'approve' url returned as part of the HATEOAS links within the Create Order call or provide a valid payment_source in the request."
+              }
+            ],
+            "message": "The requested action could not be performed, semantically incorrect, or failed business validation.",
+            "debug_id": "f586128ac213a"
+          }
+        },
+        {
+          "step": "E-setup-token-before-approval",
+          "status": 200,
+          "debugId": "f891136dfa044",
+          "response": {
+            "id": "9RJ86983E5394083A",
+            "customer": {
+              "id": "CqCpQdOSRi"
+            },
+            "status": "PAYER_ACTION_REQUIRED",
+            "payment_source": {
+              "paypal": {
+                "description": "nearh agent spending account (sandbox spike)",
+                "usage_pattern": "IMMEDIATE",
+                "permit_multiple_payment_tokens": true,
+                "usage_type": "MERCHANT",
+                "customer_type": "CONSUMER"
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
