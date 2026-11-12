@@ -22,6 +22,8 @@ export const EVIDENCE = [
   "demo/evidence/pp-payouts-live.jsonl",
   "demo/evidence/pt2-hank-live.md",
   "demo/evidence/pt2-hank-live.jsonl",
+  "demo/evidence/pt3-bot-run.md",
+  "demo/evidence/pt3-bot-run.jsonl",
   "rails/paypal/RESULT.md",
   "rails/paypal/RESULT-webhooks.md",
   "rails/paypal/evidence-vault.json",

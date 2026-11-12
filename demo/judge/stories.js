@@ -111,7 +111,7 @@ export const STORIES = {
       ["Each signed order", "valid at most 5 minutes, charged once per request_id"],
       ["Revoke", "one tap: the vault token is deleted"],
     ],
-    note: "Grokbot did not run against our MCP server for this page: the recorded run called the MCP server's pay_paypal tool from a script. Every beat below ran live on Nov 12 against NEAR testnet, NEAR AI Cloud and the PayPal sandbox, except where a line says replay. In the live run the real card shop is a PayPal sandbox account, sb…@personal.example.com, standing in for CardVault.",
+    note: "Two live runs on Nov 12 against NEAR testnet, NEAR AI Cloud and the PayPal sandbox. In the agent-driven run (pt3-bot-run) an LLM agent playing Grokbot, given only the buyer MCP tools, read each invoice and decided every payment itself; the owner and attacker steps ran between its two parts. The first run (pt2-hank-live) called the same pay_paypal tool from a script. A line that says replay did not run live. The real card shop is a PayPal sandbox account, sb…@personal.example.com, standing in for CardVault.",
     beats: [
       {
         id: "hank-listings",
@@ -166,7 +166,7 @@ export const STORIES = {
             text: "Nov 12: revoke on the contract, then the vault token answers HTTP 404. The swap beat's unspent signed charge, sent unchanged: blocked, PP3_AGENT_REVOKED. The owner re-arming the agent: ERR_AGENT_REVOKED on chain",
             links: [txLink("revoke tx", "76ArqpgcojoUeiYKcyxsiAyEK9FYpnV2p8c8WGbrMP42"), txLink("refused tx", "z6aWR6dazqYfT6gYc2d8p7y8dXGddowdY6SdDoT313D"), HANK_EV],
           },
-          { label: "replay", text: "The contract's ERR_AGENT_REVOKED for the agent's own next request, on the mock contract. Live, the revoke deletes the agent's NEAR key, and the run's next request was held by the scam check before NEAR", links: [["contract/src/errors.rs", ev("contract/src/errors.rs")]] },
+          { label: "live run", text: "Agent-driven run: after the owner's revoke (tx 328Ah69G…) the agent's own next purchase never starts. Its MCP server refuses to start because the agent key is no longer live on the contract, and the vault token answers 404", links: [txLink("revoke tx", "328Ah69GUxYJYLCE8ThEt157Vj5XrcQjRD1zf7vQNi3U"), ["transcript pt3-bot-run.md", ev("demo/evidence/pt3-bot-run.md")]] },
         ],
       },
     ],

@@ -46,7 +46,7 @@ test("Hank: replay labels, every refusal code, and the revoke", async ({ page })
   await page.getByRole("tab", { name: "Hank's trading card" }).click();
   await expect(page.getByRole("tab", { name: "Hank's trading card" })).toHaveAttribute("aria-selected", "true");
   await expect(page.getByTestId("rulebook")).toContainText("max USD 100.00 per payment, USD 150.00 per week");
-  await expect(page.locator(".note")).toContainText("Grokbot did not run against our MCP server");
+  await expect(page.locator(".note")).toContainText("an LLM agent playing Grokbot, given only the buyer MCP tools");
   await expect(page.getByTestId("beat")).toHaveCount(6);
   await page.getByRole("button", { name: "Run it (replay)" }).click();
   await expect(page.getByRole("status")).toHaveText("Replay done: 8 steps.");
