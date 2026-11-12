@@ -9,6 +9,7 @@
     "demo:paypal": "node src/paypal-demo.ts",
     "test": "node --test \"test/**/*.test.ts\" && playwright install chromium && playwright test",
     "demo:refunds": "node src/pt1-refunds.ts",
+    "demo:hank-live": "node src/pt2-hank-live.ts",
     "judge": "node src/judge-server.ts"
   },
   "dependencies": {
